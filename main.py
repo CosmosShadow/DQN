@@ -14,7 +14,7 @@ from DQN import *
 gc.enable()
 
 params = {
-	'visualize' : True,
+	'visualize' : False,
 	'ckpt_file':None,
 	'num_epochs': 100,
 	'steps_per_epoch': 50000,
