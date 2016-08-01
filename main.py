@@ -47,7 +47,7 @@ def copy_net(from_predix, to_predix):
 	for varible in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES):
 		if varible.name.startswith(from_predix):
 			target_name = to_predix + varible.name[len(from_predix):len(varible.name)]
-			print varible.name, target_name
+			# print varible.name, target_name
 			target_varible = [v for v in tf.all_variables() if v.name == target_name][0]
 			cp_ops.append(target_varible.assign(varible))
 	return cp_ops
