@@ -42,6 +42,16 @@ params = {
 	'only_eval' : False
 }
 
+def copy_net(from_predix, to_predix):
+	cp_ops = []
+	for varible in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES):
+		if varible.name.startswith(from_predix):
+			target_name = to_predix + varible.name[len(from_predix):len(varible.name)]
+			print varible.name, target_name
+			target_varible = [v for v in tf.all_variables() if v.name == target_name][0]
+			cp_ops.append(target_varible.assign(varible))
+	return cp_ops
+
 class deep_atari:
 	def __init__(self,params):
 		print 'Initializing Module...'
@@ -63,13 +73,7 @@ class deep_atari:
 		self.sess.run(tf.initialize_all_variables())
 		self.saver = tf.train.Saver()
 
-		self.cp_ops = []
-		for varible in tf.get_collection(tf.GraphKeys.TRAINABLE_VARIABLES):
-			if varible.name.startswith('qnet'):
-				target_name = 'targetnet' + varible.name[len('qnet'):len(varible.name)]
-				print varible.name, target_name
-				target_varible = [v for v in tf.all_variables() if v.name == target_name][0]
-				self.cp_ops.append(target_varible.assign(varible))
+		self.cp_ops = copy_net('qnet', 'targetnet')
 
 		self.sess.run(self.cp_ops)
 		
@@ -94,6 +98,8 @@ class deep_atari:
 			# 计数
 			if self.training and (self.DB.get_size() >= self.params['train_start']):
 				self.step += 1
+			if self.step%1000 == 0:
+				print self.step
 
 			# 存一帧
 			if self.state_gray_old is not None and self.training:
