@@ -14,7 +14,7 @@ from DQN import *
 gc.enable()
 
 params = {
-	'visualize' : True,
+	'visualize' : False,
 	'ckpt_file': 'ckpt/model_20000',
 	'num_epochs': 100,
 	'steps_per_epoch': 50000,
@@ -98,7 +98,7 @@ class deep_atari:
 			# 计数
 			if self.training and (self.DB.get_size() >= self.params['train_start']):
 				self.step += 1
-			if self.step%1000 == 0:
+			if self.step>0 and self.step%1000 == 0:
 				print self.step
 
 			# 存一帧
