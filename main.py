@@ -14,8 +14,8 @@ from DQN import *
 gc.enable()
 
 params = {
-	'visualize' : False,
-	'ckpt_file':None,
+	'visualize' : True,
+	'ckpt_file': 'ckpt/model_20000',
 	'num_epochs': 100,
 	'steps_per_epoch': 50000,
 	'eval_freq':50000,
@@ -38,7 +38,7 @@ params = {
 	'rms_eps':1e-6,
 	'train_start':100,
 	'img_scale':255.0,
-	'gpu_fraction' : 0.5,
+	'gpu_fraction' : 0.25,
 	'only_eval' : False
 }
 
