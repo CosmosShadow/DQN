@@ -5,6 +5,7 @@ import tensorflow as tf
 import numpy as np
 import time
 from ale_python_interface import ALEInterface
+import cv #server needs
 import cv2
 from scipy import misc
 import gc #garbage colloector
