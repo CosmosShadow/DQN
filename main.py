@@ -137,7 +137,8 @@ class deep_atari:
 
 			# 备份
 			if self.DB.get_size() > self.params['train_start'] and self.step % self.params['save_interval'] == 0 and self.training:
-				self.saver.save(self.sess,'ckpt/model_' + str(self.train_cnt))
+				# self.saver.save(self.sess,'ckpt/model_' + str(self.train_cnt))
+				self.saver.save(self.sess,'ckpt/model')
 			
 			# 是不是结束游戏了
 			if self.terminal :  
