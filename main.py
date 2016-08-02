@@ -15,7 +15,8 @@ gc.enable()
 
 params = {
 	'visualize' : False,
-	'ckpt_file': 'ckpt/model_20000',
+	# 'ckpt_file': 'ckpt/model_70000',
+	'ckpt_file': 'ckpt/model_70000',
 	'num_epochs': 100,
 	'steps_per_epoch': 50000,
 	'eval_freq':50000,
@@ -57,8 +58,9 @@ class deep_atari:
 		print 'Initializing Module...'
 		self.params = params
 
-		self.gpu_config = tf.ConfigProto(gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=self.params['gpu_fraction']))
-		self.sess = tf.Session(config=self.gpu_config)
+		# self.gpu_config = tf.ConfigProto(gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=self.params['gpu_fraction']))
+		# self.sess = tf.Session(config=self.gpu_config)
+		self.sess = tf.Session()
 		self.DB = database(self.params)
 		self.engine = emulator(rom_name='roms/breakout.bin', vis=self.params['visualize'])
 		self.params['num_act'] = len(self.engine.legal_actions)
@@ -98,8 +100,9 @@ class deep_atari:
 			# 计数
 			if self.training and (self.DB.get_size() >= self.params['train_start']):
 				self.step += 1
-			if self.step>0 and self.step%1000 == 0:
-				print self.step
+
+			if self.train_cnt>0 and self.train_cnt%1000 == 0:
+				print 'train count', self.train_cnt
 
 			# 存一帧
 			if self.state_gray_old is not None and self.training:
