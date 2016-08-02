@@ -17,7 +17,7 @@ gc.enable()
 params = {
 	'visualize' : False,
 	# 'ckpt_file': 'ckpt/model_70000',
-	'ckpt_file': 'ckpt/model_70000',
+	'ckpt_file': '',
 	'num_epochs': 100,
 	'steps_per_epoch': 50000,
 	'eval_freq':50000,
