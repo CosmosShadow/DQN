@@ -137,8 +137,9 @@ class deep_atari:
 				self.params['eps'] = 0.05
 
 			# 备份
-			if self.DB.get_size() > self.params['train_start'] and self.step % self.params['save_interval'] == 0 and self.training:
-				# self.saver.save(self.sess,'ckpt/model_' + str(self.train_cnt))
+			if self.DB.get_size() > self.params['train_start'] and self.train_cnt % self.params['save_interval'] == 0 and self.training:
+				# sel$f.saver.save(self.sess,'ckpt/model_' + str(self.train_cnt))
+				print 'save model, train_cnt: ', self.train_cnt
 				self.saver.save(self.sess,'ckpt/model')
 			
 			# 是不是结束游戏了
