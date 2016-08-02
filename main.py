@@ -24,7 +24,7 @@ params = {
 	'steps_per_eval':10000,
 	'copy_freq' : 10000,
 	'disp_freq':10000,
-	'save_interval':10000,
+	'save_interval':100,
 	'db_size': 1000000,
 	'batch': 32,
 	'num_act': 0,
@@ -137,8 +137,9 @@ class deep_atari:
 				self.params['eps'] = 0.05
 
 			# 备份
-			if self.DB.get_size() > self.params['train_start'] and self.step % self.params['save_interval'] == 0 and self.training:
+			if self.DB.get_size() > self.params['train_start'] and self.train_cnt % self.params['save_interval'] == 0 and self.training:
 				# self.saver.save(self.sess,'ckpt/model_' + str(self.train_cnt))
+				print 'save model', self.train_cnt
 				self.saver.save(self.sess,'ckpt/model')
 			
 			# 是不是结束游戏了
