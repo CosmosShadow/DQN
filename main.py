@@ -17,6 +17,8 @@ gc.enable()
 params = {
 	'visualize' : True,
 	'only_eval' : True,
+	'recording': True,
+	'recording_cnt': 25*60*2,
 	'ckpt_file': 'ckpt/model',
 	'num_epochs': 100,
 	'steps_per_epoch': 50000,
@@ -66,6 +68,8 @@ class deep_atari:
 		self.build_net()
 		self.training = not self.params['only_eval']
 		self.game_cnt = 0
+		fourcc = cv2.cv.CV_FOURCC('m', 'p', '4', 'v')
+		self.video  = cv2.VideoWriter('ckpt/video.mp4', fourcc, 25, (160, 210), True);
 
 	def build_net(self):
 		print 'Building QNet and targetnet...'		
@@ -96,10 +100,8 @@ class deep_atari:
 		print 'Collecting replay memory for ' + str(self.params['train_start']) + ' steps'
 
 		while self.step < (self.params['steps_per_epoch'] * self.params['num_epochs'] + self.params['train_start']):
-			# time.sleep(0.01)
 			# 计数
-			if self.training and (self.DB.get_size() >= self.params['train_start']):
-				self.step += 1
+			self.step += 1
 
 			if self.training and self.train_cnt>0 and self.train_cnt%1000 == 0:
 				print 'train count', self.train_cnt
@@ -151,6 +153,13 @@ class deep_atari:
 			self.action_idx, self.action, self.maxQ = self.select_action(self.state_proc)
 			self.state, self.reward, self.terminal = self.engine.next(self.action)
 			self.reward_scaled = self.reward // max(1,abs(self.reward))
+
+			# 存视频
+			if self.params['recording']:
+				self.video.write(self.state)
+				if self.step > self.params['recording_cnt']:
+					self.video.release()
+					exit()
 
 			# 添加统计
 			self.add_statistics()
