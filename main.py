@@ -17,7 +17,7 @@ gc.enable()
 params = {
 	'visualize' : True,
 	'only_eval' : True,
-	'recording': True,
+	'recording': False,
 	'recording_cnt': 25*60*2,
 	'ckpt_file': 'ckpt/model',
 	'num_epochs': 100,
