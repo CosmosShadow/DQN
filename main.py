@@ -61,7 +61,12 @@ class deep_atari:
 
 		# self.gpu_config = tf.ConfigProto(gpu_options = tf.GPUOptions(per_process_gpu_memory_fraction=self.params['gpu_fraction']))
 		# self.sess = tf.Session(config=self.gpu_config)
-		self.sess = tf.Session()
+		# GPU使用率
+		config = tf.ConfigProto()
+		config.gpu_options.per_process_gpu_memory_fraction = 0.8    #固定比例
+		config.gpu_options.allow_growth = True
+
+		self.sess = tf.Session(config=config)
 		self.DB = database(self.params)
 		self.engine = emulator(rom_name='roms/breakout.bin', vis=self.params['visualize'])
 		self.params['num_act'] = len(self.engine.legal_actions)
