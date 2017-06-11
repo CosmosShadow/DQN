@@ -50,7 +50,7 @@ def copy_net(from_predix, to_predix):
 		if varible.name.startswith(from_predix):
 			target_name = to_predix + varible.name[len(from_predix):len(varible.name)]
 			print varible.name, target_name
-			target_varible = [v for v in tf.all_variables() if v.name == target_name][0]
+			target_varible = [v for v in tf.global_variables() if v.name == target_name][0]
 			cp_ops.append(target_varible.assign(varible))
 	return cp_ops
 
@@ -80,7 +80,7 @@ class deep_atari:
 		print 'Building QNet and targetnet...'		
 		self.qnet = DQN(self.params, 'qnet')
 		self.targetnet = DQN(self.params, 'targetnet')
-		self.sess.run(tf.initialize_all_variables())
+		self.sess.run(tf.global_variables_initializer())
 		self.saver = tf.train.Saver()
 
 		self.cp_ops = copy_net('qnet', 'targetnet')
